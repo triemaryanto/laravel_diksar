@@ -15,12 +15,12 @@ class AnggotaExport implements FromCollection
         $kategori = session()->get('kategori');
         $cari = session()->get('cari');
         if ($cari != "") {
-            return Anggota::join('Cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
-                ->select('Anggotas.username', 'Anggotas.nama', 'Anggotas.tgl', 'Anggotas.kelompok', 'Anggotas.po', 'Cabangs.nama_cabang')
+            return Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
+                ->select('anggotas.username', 'anggotas.nama', 'anggotas.tgl', 'anggotas.kelompok', 'anggotas.po', 'cabangs.nama_cabang')
                 ->where($kategori, 'LIKE', '%' . $cari . '%')->get();
         } else {
-            return Anggota::join('Cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
-                ->select('Anggotas.username', 'Anggotas.nama', 'Anggotas.tgl', 'Anggotas.kelompok', 'Anggotas.po', 'Cabangs.nama_cabang')
+            return Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
+                ->select('anggotas.username', 'Anggotas.nama', 'anggotas.tgl', 'anggotas.kelompok', 'anggotas.po', 'cabangs.nama_cabang')
                 ->get();
         }
     }

@@ -52,6 +52,10 @@
                 <div class="col-auto">
                     <a href="/admin/excelabsensi" class="btn btn-success">Export Excel</a>
                 </div>
+                <div class="col-auto">
+                    <a href="/admin/datacsv" class="btn btn-success">Format CSV</a>
+                </div>
+
             </div>
             <br>
             <div class="card">

@@ -5,7 +5,7 @@ namespace App\Exports;
 use App\Models\Absensi;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class AbsensiExport implements FromCollection
+class CsvExport implements FromCollection
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -14,7 +14,7 @@ class AbsensiExport implements FromCollection
     {
         return Absensi::join('anggotas', 'absensis.id_anggota', '=', 'anggotas.username')
             ->join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
-            ->select('cabangs.nama_cabang as namacab', 'anggotas.nama as nama', 'anggotas.kelompok as kelompok', 'anggotas.po as petugas', 'absensis.created_at as createdat')
+            ->select('absensis.id_anggota', 'anggotas.nama', 'cabangs.nama_cabang', 'anggotas.kategori')
             ->get();
     }
 }

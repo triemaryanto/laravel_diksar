@@ -85,7 +85,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="/admin/absensi" class="nav-link">
                                 <i class="fa-solid fa-folder-user"></i>
                                 <p>
@@ -100,7 +100,7 @@
                                     Kegiatan
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
 

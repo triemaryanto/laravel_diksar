@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/liatmaps/{id}', [AbsensiController::class, 'liatMap'])->name('liatMap');
     Route::get('/admin/pdfabsensi', [AbsensiController::class, 'pdfAbsensi'])->name('pdfAbsensi');
     Route::get('/admin/excelabsensi', [AbsensiController::class, 'excelAbsensi'])->name('excelAbsensi');
+    Route::get('/admin/datacsv', [AbsensiController::class, 'datacsv'])->name('datacsv');
+
     Route::get('/admin/anggota', [AnggotaController::class, 'dataAnggota'])->name('dataAnggota');
     Route::get('/admin/pdfanggota', [AnggotaController::class, 'pdfAnggota'])->name('pdfAnggota');
     Route::get('/admin/excelanggota', [AnggotaController::class, 'excelAnggota'])->name('excelAnggota');

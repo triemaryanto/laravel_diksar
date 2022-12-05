@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AnggotaExport;
+use App\Models\tbl_anggota;
 
 class AnggotaController extends Controller
 {
@@ -24,7 +25,9 @@ class AnggotaController extends Controller
         $this->validate(
             $request,
             ['username' => 'required'],
-            ['tgl' => 'required']
+            ['tgl' => 'required'],
+            ['latitude' => 'required'],
+            ['longitude' => 'required']
 
         );
 
@@ -32,6 +35,7 @@ class AnggotaController extends Controller
         $tgl = $request->input('tgl');
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
+        $data = Anggota::where('username', $username)->first();
         $users = DB::table('anggotas')->where(['username' => $username])->where(['tgl' => $tgl])->get();
         $absensis = DB::table('absensis')->where(['id_anggota' => $username])->get();
         foreach ($users as $row) {
@@ -54,12 +58,21 @@ class AnggotaController extends Controller
                     'latitude' => $latitude,
                     'longitude' => $longitude,
                 ]);
+                tbl_anggota::insert([
+                    'nama_anggota' => $data->nama,
+                    'kelompok' => $data->kelompok,
+                    'po' => $data->po,
+                    'id_cabang' => $data->id_cabang,
+                    'hadiah' => '0',
+                    'status' => '0',
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
                 return redirect('/home');
             }
         } else {
-            return redirect('/login')->with('failed', 'Id Anggota atau Tanggal Lahir Salah');
+            return redirect('/login')->with('failed', 'Id Anggota atau Tanggal Lahir Salah Dan Pastikan GPS sudah Aktif!');
         }
-        dd($row->nama);
+        // dd($data->id_cabang);
     }
 
     public function logout(Request $request)
@@ -75,11 +88,11 @@ class AnggotaController extends Controller
     {
         $cari = $request->input('cari');
         if ($request->has('search')) {
-            $data = Anggota::join('Cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
+            $data = Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
                 ->where($cari, 'LIKE', '%' . $request->search . '%')->paginate(10);
             Session::put('halaman_url', request()->fullUrl());
         } else {
-            $data = Anggota::join('Cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
+            $data = Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
                 ->paginate(10);
             Session::put('halaman_url', request()->fullUrl());
         }
@@ -92,10 +105,10 @@ class AnggotaController extends Controller
         $kategori = session()->get('kategori');
         $cari = session()->get('cari');
         if ($cari != "") {
-            $data = Anggota::join('Cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
+            $data = Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
                 ->where($kategori, 'LIKE', '%' . $cari . '%')->get();
         } else {
-            $data = Anggota::join('Cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
+            $data = Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
                 ->get();
         }
         view()->share('data', $data);
