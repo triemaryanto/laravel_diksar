@@ -37,11 +37,12 @@ Route::post('/prosesadmin', [UserController::class, 'prosesadmin'])->name('prose
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/home', [HomeController::class, 'homeadmin'])->name('homeadmin');
     Route::get('/admin/absensi', [AbsensiController::class, 'dataAbsensi'])->name('dataAbsensi');
+
     Route::get('/liatmaps/{id}', [AbsensiController::class, 'liatMap'])->name('liatMap');
     Route::get('/admin/pdfabsensi', [AbsensiController::class, 'pdfAbsensi'])->name('pdfAbsensi');
     Route::get('/admin/excelabsensi', [AbsensiController::class, 'excelAbsensi'])->name('excelAbsensi');
     Route::get('/admin/datacsv', [AbsensiController::class, 'datacsv'])->name('datacsv');
-
+    Route::get('/admin/notabsensi', [AbsensiController::class, 'belumAbsensi'])->name('belumAbsensi');
     Route::get('/admin/anggota', [AnggotaController::class, 'dataAnggota'])->name('dataAnggota');
     Route::get('/admin/pdfanggota', [AnggotaController::class, 'pdfAnggota'])->name('pdfAnggota');
     Route::get('/admin/excelanggota', [AnggotaController::class, 'excelAnggota'])->name('excelAnggota');

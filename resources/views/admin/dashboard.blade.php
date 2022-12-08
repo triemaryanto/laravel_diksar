@@ -87,12 +87,27 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/absensi" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="fa-solid fa-folder-user"></i>
                                 <p>
                                     Absensi
+                                    <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/admin/absensi" class="nav-link">
+                                        <i class="fa-solid fa-folder-user"></i>
+                                        <p>Sudah Absen</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/notabsensi" class="nav-link">
+                                        <i class="fa-solid fa-folder-user"></i>
+                                        <p>Belum Absen</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="/admin/anggota" class="nav-link">

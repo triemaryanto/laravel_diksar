@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Sudah Melakukan Absensi</h1>
+                    <h1 class="m-0">Belum Melakukan Absensi</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -35,10 +35,10 @@
                     <div class="col-auto">
                         <p> Cari Berdasarkan</p>
                         <select class="form-select" aria-label="Default select example" name="cari">
-                            <option value="anggotas.nama">Nama</option>
-                            <option value="anggotas.kelompok">Kelompok</option>
-                            <option value="anggotas.po">Petugas</option>
-                            <option value="cabangs.nama_cabang">Cabang</option>
+                            <option value="nama">Nama</option>
+                            <option value="kelompok">Kelompok</option>
+                            <option value="po">Petugas</option>
+                            <option value="nama_cabang">Cabang</option>
                         </select>
                     </div>
                     <div class="col-auto">
@@ -46,14 +46,11 @@
                     </div>
 
                 </form>
-                <div class="col-auto">
+                <!-- <div class="col-auto">
                     <a href="/admin/pdfabsensi" class="btn btn-danger">Export PDF</a>
                 </div>
                 <div class="col-auto">
                     <a href="/admin/excelabsensi" class="btn btn-success">Export Excel</a>
-                </div>
-                <!-- <div class="col-auto">
-                    <a href="/admin/datacsv" class="btn btn-success">Format CSV</a>
                 </div> -->
 
             </div>
@@ -70,8 +67,6 @@
                                 <th>Kelompok</th>
                                 <th>Petugas</th>
                                 <th>Cabang</th>
-                                <th>Waktu</th>
-                                <th>Maps</th>
                             </tr>
                         </thead>
 
@@ -81,10 +76,8 @@
                                 <td>{{ $index + $data->firstItem() }}</td>
                                 <td>{{ $row->nama }}</td>
                                 <td>{{ $row->kelompok }}</td>
-                                <td>{{ $row->petugas }}</td>
-                                <td>{{ $row->namacab }}</td>
-                                <td>{{ \Carbon\Carbon::parse($row->createdat)->diffForHumans() }}</td>
-                                <td><a href="/liatmaps/{{ $row->id }}">Lihat Peta</a></td>
+                                <td>{{ $row->po }}</td>
+                                <td>{{ $row->nama_cabang }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -95,8 +88,6 @@
                                 <th>Kelompok</th>
                                 <th>Petugas</th>
                                 <th>Cabang</th>
-                                <th>Waktu</th>
-                                <th>Maps</th>
                             </tr>
                         </tfoot>
                     </table>

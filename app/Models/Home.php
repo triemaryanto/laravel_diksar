@@ -19,7 +19,7 @@ class Home extends Model
                 DB::raw('COUNT(absensis.id_anggota) as totalabsen')
             )
             ->groupBy('cabangs.nama_cabang')
-            ->get();
+            ->paginate(22);
     }
     public function totalAnggota()
     {

@@ -20,6 +20,7 @@ class CreateAbsensisTable extends Migration
             $table->integer('id_cabang');
             $table->string('latitude');
             $table->string('longitude');
+            $table->string('ip');
             $table->timestamps();
         });
     }

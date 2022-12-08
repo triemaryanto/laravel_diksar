@@ -7,6 +7,7 @@ use App\Models\Absensi;
 use App\Exports\CsvExport;
 use Illuminate\Http\Request;
 use App\Exports\AbsensiExport;
+use App\Models\Anggota;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
@@ -35,8 +36,29 @@ class AbsensiController extends Controller
             Session::put('halaman_url', request()->fullUrl());
         }
         session()->flash('kategori', $cari);
-        session()->flash('cari', $request->search);
+        session()->flash('c[ari', $request->search);
         return view('/admin/absensi', compact('data'));
+        // dd($data);
+    }
+    public function belumAbsensi(Request $request)
+    {
+        $cari = $request->input('cari');
+        if ($request->has('search')) {
+            $data = Anggota::select('nama', 'kelompok', 'po', 'nama_cabang')->JOIN('cabangs', 'anggotas.id_cabang', '=', 'cabangs.id')
+                ->whereNotIn('username', DB::table('absensis')->select('id_anggota'))
+                ->where($cari, 'LIKE', '%' . $request->search . '%')->paginate(10);
+            Session::put('halaman_url', request()->fullUrl());
+        } else {
+            $data = Anggota::select('nama', 'kelompok', 'po', 'nama_cabang')->JOIN('cabangs', 'anggotas.id_cabang', '=', 'cabangs.id')
+                ->whereNotIn('username', DB::table('absensis')->select('id_anggota'))
+                ->paginate(10);
+            Session::put('halaman_url', request()->fullUrl());
+        }
+        session()->flash('kategori', $cari);
+        session()->flash('cari', $request->search);
+
+
+        return view('/admin/notpresent', compact('data'));
         // dd($data);
     }
     public function pdfabsensi()

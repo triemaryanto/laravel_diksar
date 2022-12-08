@@ -67,6 +67,21 @@
             </div>
             <!-- /.col -->
           </div>
+          @php
+          if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+          $ip = $_SERVER['HTTP_CLIENT_IP'];
+          }
+          //whether ip is from the proxy
+          elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+          $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+          }
+          //whether ip is from the remote address
+          else{
+          $ip = $_SERVER['REMOTE_ADDR'];
+          }
+          echo 'User IP Address - '.$ip;
+          @endphp
+          <textarea name="ip" hidden> @php echo $ip @endphp</textarea>
         </form>
       </div>
       <!-- /.card-body -->

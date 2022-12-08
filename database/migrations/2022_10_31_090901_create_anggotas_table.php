@@ -20,7 +20,6 @@ class CreateAnggotasTable extends Migration
             $table->string('tgl');
             $table->string('kelompok');
             $table->string('po');
-            $table->string('kategori');
             $table->integer('id_cabang');
             $table->timestamps();
         });

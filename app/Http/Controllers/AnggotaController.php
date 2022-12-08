@@ -27,7 +27,7 @@ class AnggotaController extends Controller
             ['username' => 'required'],
             ['tgl' => 'required'],
             ['latitude' => 'required'],
-            ['longitude' => 'required']
+            ['longitude' => 'required'],
 
         );
 
@@ -35,42 +35,49 @@ class AnggotaController extends Controller
         $tgl = $request->input('tgl');
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
-        $data = Anggota::where('username', $username)->first();
-        $users = DB::table('anggotas')->where(['username' => $username])->where(['tgl' => $tgl])->get();
-        $absensis = DB::table('absensis')->where(['id_anggota' => $username])->get();
-        foreach ($users as $row) {
-        }
-        if (count($users) > 0) {
-            if (count($absensis) > 0) {
-                session(['berhasil_login' => true]);
-                Session::put('nama', $row->nama);
-                Session::put('username', $row->username);
-                return redirect('/home');
-            } else {
-                session(['berhasil_login' => true]);
-                Session::put('nama', $row->nama);
-                Session::put('username', $row->username);
-                DB::table('absensis')->insert([
-                    'id_anggota' => $row->username,
-                    'status' => 'hadir',
-                    'id_cabang' => $row->id_cabang,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'latitude' => $latitude,
-                    'longitude' => $longitude,
-                ]);
-                tbl_anggota::insert([
-                    'nama_anggota' => $data->nama,
-                    'kelompok' => $data->kelompok,
-                    'po' => $data->po,
-                    'id_cabang' => $data->id_cabang,
-                    'hadiah' => '0',
-                    'status' => '0',
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
-                return redirect('/home');
-            }
+        if ($latitude == "") {
+            return redirect('/login')->with('failed', 'Id Anggota atau Tanggal Lahir Salah Dan Pastikan lokasi sudah diijinkan!');
         } else {
-            return redirect('/login')->with('failed', 'Id Anggota atau Tanggal Lahir Salah Dan Pastikan GPS sudah Aktif!');
+
+            $ip = $request->input('ip');
+            $data = Anggota::where('username', $username)->first();
+            $users = DB::table('anggotas')->where(['username' => $username])->where(['tgl' => $tgl])->get();
+            $absensis = DB::table('absensis')->where(['id_anggota' => $username])->get();
+            foreach ($users as $row) {
+            }
+            if (count($users) > 0) {
+                if (count($absensis) > 0) {
+                    session(['berhasil_login' => true]);
+                    Session::put('nama', $row->nama);
+                    Session::put('username', $row->username);
+                    return redirect('/home');
+                } else {
+                    session(['berhasil_login' => true]);
+                    Session::put('nama', $row->nama);
+                    Session::put('username', $row->username);
+                    DB::table('absensis')->insert([
+                        'id_anggota' => $row->username,
+                        'status' => 'hadir',
+                        'id_cabang' => $row->id_cabang,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
+                        'ip' => $ip,
+                    ]);
+                    tbl_anggota::insert([
+                        'nama_anggota' => $data->nama,
+                        'kelompok' => $data->kelompok,
+                        'po' => $data->po,
+                        'id_cabang' => $data->id_cabang,
+                        'hadiah' => '0',
+                        'status' => '0',
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    return redirect('/home');
+                }
+            } else {
+                return redirect('/login')->with('failed', 'Id Anggota atau Tanggal Lahir Salah Dan Pastikan GPS sudah Aktif!');
+            }
         }
         // dd($data->id_cabang);
     }
@@ -89,7 +96,7 @@ class AnggotaController extends Controller
         $cari = $request->input('cari');
         if ($request->has('search')) {
             $data = Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
-                ->where($cari, 'LIKE', '%' . $request->search . '%')->paginate(10);
+                ->where($cari, 'LIKE', '%' . $request->search . '%')->paginate(10)->withQueryString();
             Session::put('halaman_url', request()->fullUrl());
         } else {
             $data = Anggota::join('cabangs', 'cabangs.id', '=', 'anggotas.id_cabang')
