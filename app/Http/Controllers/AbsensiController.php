@@ -56,8 +56,6 @@ class AbsensiController extends Controller
         }
         session()->flash('kategori', $cari);
         session()->flash('cari', $request->search);
-
-
         return view('/admin/notpresent', compact('data'));
         // dd($data);
     }
